@@ -11,7 +11,6 @@ if (module.hot) {
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
-
     if (!id) return;
 
     recipeView.renderSpinner();
@@ -55,8 +54,17 @@ const controlPagination = goToPage => {
   paginationView.render(model.state.search);
 };
 
-const init = function () {
+const controlServings = newServings => {
+  // update recipe servings
+  model.updateServings(newServings);
+
+  //update the recipe view
+  recipeView.render(model.state.recipe);
+};
+
+const init = () => {
   recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };
