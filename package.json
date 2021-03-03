@@ -1,7 +1,6 @@
 {
   "name": "recipies-app",
   "version": "1.0.0",
-  "description": "",
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html",
@@ -10,6 +9,11 @@
   "author": "m4nos",
   "license": "ISC",
   "devDependencies": {
+    "@parcel/transformer-css": "^2.0.0-nightly.612",
+    "@parcel/transformer-html": "^2.0.0-nightly.612",
+    "@parcel/transformer-postcss": "^2.0.0-nightly.612",
+    "@parcel/transformer-posthtml": "^2.0.0-nightly.612",
+    "@parcel/transformer-sass": "^2.0.0-nightly.612",
     "parcel": "^2.0.0-beta.1",
     "sass": "^1.32.7"
   },
@@ -17,5 +21,14 @@
     "core-js": "^3.8.3",
     "fractional": "^1.0.0",
     "regenerator-runtime": "^0.13.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m4nos/forkify.git"
+  },
+  "bugs": {
+    "url": "https://github.com/m4nos/forkify/issues"
+  },
+  "homepage": "https://github.com/m4nos/forkify#readme",
+  "description": ""
 }
