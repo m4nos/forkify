@@ -1,15 +1,15 @@
-import { API_URL, RES_PER_PAGE } from './config.js';
-import { getJSON } from './helpers.js';
+import { API_URL, RES_PER_PAGE } from "./config.js";
+import { getJSON } from "./helpers.js";
 
 export const state = {
   recipe: {},
   search: {
-    query: '',
+    query: "",
     results: [],
     page: 1,
     resultsPerPage: RES_PER_PAGE,
   },
-  bookmarks: []
+  bookmarks: [],
 };
 
 export const loadRecipe = async function (id) {
@@ -27,6 +27,11 @@ export const loadRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
+
+    if (state.bookmarks.some((bookmark) => bookmark.id === id))
+      state.recipe.bookmarked = true;
+    else state.recipe.bookmarked = false;
+
     console.log(state.recipe);
   } catch (err) {
     console.error();
@@ -39,7 +44,7 @@ export const loadSearchResults = async function (query) {
     state.search.query = query;
     const data = await getJSON(`${API_URL}?search=${query}`);
 
-    state.search.results = data.data.recipes.map(rec => {
+    state.search.results = data.data.recipes.map((rec) => {
       return {
         id: rec.id,
         title: rec.title,
@@ -63,16 +68,23 @@ export const getSearchResultsPage = (page = state.search.page) => {
   return state.search.results.slice(start, end);
 };
 
-export const updateServings = newServings => {
-  state.recipe.ingredients.forEach(ing => {
+export const updateServings = (newServings) => {
+  state.recipe.ingredients.forEach((ing) => {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
   });
 
   state.recipe.servings = newServings;
 };
 
-export const addBookmark = recipe => {
-  state.bookmarks.push(recipe)
+export const addBookmark = (recipe) => {
+  state.bookmarks.push(recipe);
 
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+};
+
+export const deleteBookmark = id => {
+  const index = state.bookmarks.findIndex(el => el.id === id)
+  state.bookmarks.splice(index, 1)
+
+  if (id === state.recipe.id) state.recipe.bookmarked = false;
 }
