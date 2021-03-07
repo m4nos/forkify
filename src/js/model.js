@@ -80,11 +80,27 @@ export const addBookmark = (recipe) => {
   state.bookmarks.push(recipe);
 
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+
+  persistBookmarks();
 };
 
-export const deleteBookmark = id => {
-  const index = state.bookmarks.findIndex(el => el.id === id)
-  state.bookmarks.splice(index, 1)
+export const deleteBookmark = (id) => {
+  const index = state.bookmarks.findIndex((el) => el.id === id);
+  state.bookmarks.splice(index, 1);
 
   if (id === state.recipe.id) state.recipe.bookmarked = false;
-}
+
+  persistBookmarks();
+};
+
+const persistBookmarks = () => {
+  localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
+};
+
+const init = () => {
+  const storage = localStorage.getItem("bookmarks");
+  if (storage) state.bookmarks = JSON.parse(storage);
+};
+
+init();
+console.log(state.bookmarks);
